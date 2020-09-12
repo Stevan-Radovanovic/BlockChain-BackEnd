@@ -27,8 +27,3 @@ class Block {
 }
 
 module.exports = Block;
-
-const block1 = Block.genesis();
-const block2 = Block.mineBlock({ lastBlock: block1, data: 'dummy' });
-const block3 = Block.mineBlock({ lastBlock: block2, data: 'dummy' });
-console.log(block1, block2, block3);
