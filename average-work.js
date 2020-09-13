@@ -7,7 +7,7 @@ let prevT, nextT, nextB, timeDiff, average;
 
 const times = [];
 
-for (let i = 0; i < 5; i++) {
+for (let i = 0; i < 5000; i++) {
   prevT = blockchain.chain[blockchain.chain.length - 1].timestamp;
   blockchain.addBlock({ data: `block ${i}` });
 
