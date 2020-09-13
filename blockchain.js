@@ -27,8 +27,13 @@ class Blockchain {
       const previous = chain[i - 1];
       if (current.lastHash !== previous.hash) return false;
       if (
-        CryptoHash(current.lastHash, current.data, current.timestamp) !==
-        current.hash
+        CryptoHash(
+          current.lastHash,
+          current.data,
+          current.timestamp,
+          current.difficulty,
+          current.nonce
+        ) !== current.hash
       )
         console.error('Validation Error: LastHash = Hash Rule not followed');
       return false;
