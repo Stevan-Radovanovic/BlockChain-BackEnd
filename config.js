@@ -1,12 +1,11 @@
 const MINE_RATE = 1000;
-const INITIAL_DIFFICULTY = 3;
 
 const GENESIS_DATA = {
   timestamp: Date.now(),
   lastHash: 'initial-last-hash',
   hash: 'initial-hash',
   data: [],
-  difficulty: INITIAL_DIFFICULTY,
+  difficulty: 3,
   nonce: 0,
 };
 
