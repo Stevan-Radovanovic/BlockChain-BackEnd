@@ -25,7 +25,12 @@ class Blockchain {
     for (const index = 1; index < chain.length; index++) {
       const current = chain[i];
       const previous = chain[i - 1];
+
+      if (Math.abs(current.difficulty - previous.difficulty) !== 1)
+        return false;
+
       if (current.lastHash !== previous.hash) return false;
+
       if (
         CryptoHash(
           current.lastHash,
