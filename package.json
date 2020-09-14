@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "api": "nodemon ./src/api/app.js"
+    "api": "nodemon ./src/api/app.js",
+    "peer": "cross-env GENERATE_PEER_PORT=true nodemon ./src/api/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.2",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4"
   },

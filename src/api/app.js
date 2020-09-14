@@ -15,13 +15,24 @@ app.get('/blocks', (req, res, next) => {
 
 app.post('/blocks/return', (req, res, next) => {
   blockchain.addBlock({ data: req.body.data });
+  pubSub.broadcastChain();
   res.status(201).json({ message: 'Block added', data: req.body.data });
 });
 
 app.post('/blocks/redirect', (req, res, next) => {
   const block = blockchain.addBlock({ data: req.body.data });
+  pubSub.broadcastChain();
   res.redirect('/blocks');
 });
 
+const DEFAULT_PORT = 3000;
+let PEER_PORT;
+
+if (process.env.GENERATE_PEER_PORT === 'true') {
+  PEER_PORT = DEFAULT_PORT + Math.ceil(Math.random() * 1000);
+}
+
+const PORT = PEER_PORT | DEFAULT_PORT;
+
 console.log('BlockChain API starting');
-app.listen(3000);
+app.listen(PORT);
