@@ -17,12 +17,12 @@ class Blockchain {
   }
 
   static isValidChain(chain) {
-    if (JSON.stringify(Block.genesis()) !== JSON.stringify(chain[0])) {
+    if (chain[0].hash !== Block.genesis().hash) {
       console.error('Validation Error: First Block not a Genesis block');
       return false;
     }
 
-    for (const index = 1; index < chain.length; index++) {
+    for (let index = 1; index < chain.length; index++) {
       const current = chain[i];
       const previous = chain[i - 1];
 
@@ -39,9 +39,10 @@ class Blockchain {
           current.difficulty,
           current.nonce
         ) !== current.hash
-      )
+      ) {
         console.error('Validation Error: LastHash = Hash Rule not followed');
-      return false;
+        return false;
+      }
     }
 
     console.log('Chain succesfully validated');
