@@ -8,8 +8,6 @@ class Blockchain {
   }
 
   addBlock({ data }) {
-    console.log('Debug1', this.chain);
-    console.log('Debug2', this.chain[0]);
     const block = Block.mineBlock({
       lastBlock: this.chain[this.chain.length - 1],
       data,
