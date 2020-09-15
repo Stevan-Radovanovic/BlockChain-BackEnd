@@ -1,4 +1,5 @@
 const MINE_RATE = 1000;
+const INITIAL_BALANCE = 1000;
 
 const GENESIS_DATA = {
   timestamp: Date.now(),
@@ -9,4 +10,4 @@ const GENESIS_DATA = {
   nonce: 0,
 };
 
-module.exports = { GENESIS_DATA, MINE_RATE };
+module.exports = { GENESIS_DATA, MINE_RATE, INITIAL_BALANCE };

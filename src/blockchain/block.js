@@ -1,5 +1,5 @@
 const Blockchain = require('./blockchain');
-const { GENESIS_DATA, MINE_RATE } = require('./config');
+const { GENESIS_DATA, MINE_RATE } = require('../../config');
 const cryptoHash = require('./crypto-hash');
 const hexToBinary = require('hex-to-binary');
 
