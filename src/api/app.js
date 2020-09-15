@@ -1,11 +1,15 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const request = require('request');
 const Blockchain = require('../blockchain/blockchain');
 const PubSub = require('./pubsub');
 
 const app = express();
 const blockchain = new Blockchain();
 const pubSub = new PubSub({ blockchain });
+
+const DEFAULT_PORT = 3000;
+const ROOT_ROUTE = `http://localhost:${DEFAULT_PORT}`;
 
 setTimeout(() => pubSub.broadcastChain(), 1000);
 
@@ -27,7 +31,17 @@ app.post('/blocks/redirect', (req, res, next) => {
   res.redirect('/blocks');
 });
 
-const DEFAULT_PORT = 3000;
+const syncChains = () => {
+  console.log('Sync Chains fired up.');
+  request({ url: `${ROOT_ROUTE}/blocks` }, (error, response, body) => {
+    if (error || response.statusCode !== 200) {
+      return;
+    }
+    const rootChain = JSON.parse(body);
+    blockchain.replaceChain(rootChain.chain);
+  });
+};
+
 let PEER_PORT;
 
 if (process.env.GENERATE_PEER_PORT === 'true') {
@@ -37,4 +51,7 @@ if (process.env.GENERATE_PEER_PORT === 'true') {
 const PORT = PEER_PORT | DEFAULT_PORT;
 
 console.log('BlockChain API starting');
-app.listen(PORT);
+
+app.listen(PORT, () => {
+  syncChains();
+});

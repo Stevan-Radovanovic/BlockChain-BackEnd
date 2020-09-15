@@ -8,6 +8,8 @@ class Blockchain {
   }
 
   addBlock({ data }) {
+    console.log('Debug1', this.chain);
+    console.log('Debug2', this.chain[0]);
     const block = Block.mineBlock({
       lastBlock: this.chain[this.chain.length - 1],
       data,
@@ -22,8 +24,11 @@ class Blockchain {
       return false;
     }
 
+    console.log(chain);
+
     for (let index = 1; index < chain.length; index++) {
       const current = chain[i];
+
       const previous = chain[i - 1];
 
       if (Math.abs(current.difficulty - previous.difficulty) !== 1)
@@ -44,7 +49,6 @@ class Blockchain {
         return false;
       }
     }
-
     console.log('Chain succesfully validated');
     return true;
   }
