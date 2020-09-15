@@ -24,26 +24,20 @@ class Blockchain {
       return false;
     }
 
-    console.log(chain);
-
-    for (let index = 1; index < chain.length; index++) {
-      const current = chain[i];
-
-      const previous = chain[i - 1];
-
-      if (Math.abs(current.difficulty - previous.difficulty) !== 1)
+    for (let i = 1; i < chain.length; i++) {
+      if (Math.abs(chain[i].difficulty - chain[i - 1].difficulty) !== 1)
         return false;
 
-      if (current.lastHash !== previous.hash) return false;
+      if (chain[i].lastHash !== chain[i - 1].hash) return false;
 
       if (
         CryptoHash(
-          current.lastHash,
-          current.data,
-          current.timestamp,
-          current.difficulty,
-          current.nonce
-        ) !== current.hash
+          chain[i].lastHash,
+          chain[i].data,
+          chain[i].timestamp,
+          chain[i].difficulty,
+          chain[i].nonce
+        ) !== chain[i].hash
       ) {
         console.error('Validation Error: LastHash = Hash Rule not followed');
         return false;
