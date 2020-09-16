@@ -38,7 +38,7 @@ class Transaction {
       return false;
     }
 
-    if (!verifySignature({publicKey: adress, data: outputMap, signature}) {
+    if (!verifySignature({ publicKey: adress, data: outputMap, signature })) {
       console.error('Transaction invalid!');
       return false;
     }
