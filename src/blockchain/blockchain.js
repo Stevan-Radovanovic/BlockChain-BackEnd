@@ -48,7 +48,7 @@ class Blockchain {
   replaceChain(newChain) {
     if (this.chain.length >= newChain.length) {
       console.error(
-        'Replacement Error: New Chain not longer than the previous one'
+        'Replacement Error: New Chain not longer than the previous one.'
       );
       return;
     }

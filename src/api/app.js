@@ -53,6 +53,7 @@ const PORT = PEER_PORT | DEFAULT_PORT;
 console.log('BlockChain API starting');
 
 app.listen(PORT, () => {
+  console.log(`Starting @ PORT ${PORT}`);
   if (PORT !== DEFAULT_PORT) {
     syncChains();
   }
