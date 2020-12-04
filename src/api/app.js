@@ -3,9 +3,13 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const Blockchain = require('../blockchain/blockchain');
 const PubSub = require('./pubsub');
+const TransactionPool = require('../crypto/transaction-pool');
+const Wallet = require('../crypto/wallet');
 
 const app = express();
 const blockchain = new Blockchain();
+const transactionPool = new TransactionPool();
+const wallet = new Wallet();
 const pubSub = new PubSub({ blockchain });
 
 const DEFAULT_PORT = 3000;
@@ -30,6 +34,12 @@ app.post('/blocks/redirect', (req, res, next) => {
   pubSub.broadcastChain();
   res.redirect('/blocks');
 });
+
+app.post('/transact/create', (req,res,next) => {
+  const {amount, recipient} = req.body;
+  const transaction = wallet.createTransaction({amount, recipient});
+  res.status(201).json({ message: 'Transaction created', transaction});
+})
 
 const syncChains = () => {
   console.log('Sync Chains fired up.');
