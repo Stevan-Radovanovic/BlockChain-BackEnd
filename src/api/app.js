@@ -37,16 +37,23 @@ app.post('/blocks/redirect', (req, res, next) => {
 
 app.post('/transact/create', (req, res, next) => {
   const { amount, recipient } = req.body;
-
-  let transaction;
-
+  let transaction = transactionPool.findTransaction({
+    inputAdress: wallet.publicKey,
+  });
   try {
-    transaction = wallet.createTransaction({ amount, recipient });
+    if (transaction) {
+      transaction.update({ senderWallet: wallet, amount, recipient });
+    } else {
+      transaction = wallet.createTransaction({ amount, recipient });
+    }
   } catch (error) {
+    console.log(error);
     return res
       .status(400)
       .json({ error: 'Crypton Error', message: error.message });
   }
+
+  transactionPool.setTransaction(transaction);
 
   res
     .status(201)
