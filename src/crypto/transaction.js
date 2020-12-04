@@ -27,8 +27,7 @@ class Transaction {
   update({ senderWallet, recipient, amount }) {
     if (amount > this.outputMap[senderWallet.publicKey]) {
       console.error('Transaction Error: Amount exceeds current balance');
-      //TODO: Add error throwing?
-      return;
+      throw new Error('Amount exceeds the current balance');
     }
 
     if (!outputMap[recipient]) {

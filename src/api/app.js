@@ -37,8 +37,20 @@ app.post('/blocks/redirect', (req, res, next) => {
 
 app.post('/transact/create', (req, res, next) => {
   const { amount, recipient } = req.body;
-  const transaction = wallet.createTransaction({ amount, recipient });
-  res.status(201).json({ message: 'Transaction created', transaction });
+
+  let transaction;
+
+  try {
+    transaction = wallet.createTransaction({ amount, recipient });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ error: 'Crypton Error', message: error.message });
+  }
+
+  res
+    .status(201)
+    .json({ message: 'Transaction created', transaction: transaction });
 });
 
 const syncChains = () => {

@@ -18,8 +18,7 @@ class Wallet {
   createTransaction({ recipient, amount }) {
     if (amount > this.balance) {
       console.error('Transaction Error: Amount exceeds current balance');
-      //TODO: Add error throwing?
-      return;
+      throw new Error('Amount exceeds the current balance');
     }
     return new Transaction({ senderWallet: this, recipient, amount });
   }
