@@ -35,11 +35,11 @@ app.post('/blocks/redirect', (req, res, next) => {
   res.redirect('/blocks');
 });
 
-app.post('/transact/create', (req,res,next) => {
-  const {amount, recipient} = req.body;
-  const transaction = wallet.createTransaction({amount, recipient});
-  res.status(201).json({ message: 'Transaction created', transaction});
-})
+app.post('/transact/create', (req, res, next) => {
+  const { amount, recipient } = req.body;
+  const transaction = wallet.createTransaction({ amount, recipient });
+  res.status(201).json({ message: 'Transaction created', transaction });
+});
 
 const syncChains = () => {
   console.log('Sync Chains fired up.');

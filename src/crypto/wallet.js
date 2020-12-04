@@ -15,13 +15,13 @@ class Wallet {
     return this.keyPair.sign(newData);
   }
 
-  createTransaction({recipient, amount}) {
-    if(amount > this.balance) {
+  createTransaction({ recipient, amount }) {
+    if (amount > this.balance) {
       console.error('Transaction Error: Amount exceeds current balance');
       //TODO: Add error throwing?
       return;
     }
-    return new Transaction({senderWallet: this, recipient,amount});
+    return new Transaction({ senderWallet: this, recipient, amount });
   }
 }
 

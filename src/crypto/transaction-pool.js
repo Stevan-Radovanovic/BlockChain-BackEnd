@@ -1,12 +1,11 @@
 class TransactionPool {
+  constructor() {
+    this.transactionMap = {};
+  }
 
-    constructor() {
-        this.transactionMap = {};
-    }
-
-    setTransaction(transaction) {
-        this.transactionMap[transaction.id] = transaction;
-    }
+  setTransaction(transaction) {
+    this.transactionMap[transaction.id] = transaction;
+  }
 }
 
-module.exports = TransactionPool
+module.exports = TransactionPool;

@@ -24,22 +24,22 @@ class Transaction {
     };
   }
 
-  update({senderWallet,recipient,amount}) {
-
-    if(amount > this.outputMap[senderWallet.publicKey]) {
+  update({ senderWallet, recipient, amount }) {
+    if (amount > this.outputMap[senderWallet.publicKey]) {
       console.error('Transaction Error: Amount exceeds current balance');
       //TODO: Add error throwing?
       return;
     }
 
-    if(!outputMap[recipient]) {
+    if (!outputMap[recipient]) {
       this.outputMap[recipient] = amount;
     } else {
       this.outputMap[recipient] = this.outputMap[recipient] + amount;
     }
-    
-    outputMap[senderWallet.publicKey] = outputMap[senderWallet.publicKey] - amount;
-    this.input = this.createInput( {senderWallet,outputMap: this.outputMap} );
+
+    outputMap[senderWallet.publicKey] =
+      outputMap[senderWallet.publicKey] - amount;
+    this.input = this.createInput({ senderWallet, outputMap: this.outputMap });
   }
 
   static verifyTransaction(transaction) {
