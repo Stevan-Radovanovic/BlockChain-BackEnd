@@ -11,6 +11,10 @@ class TransactionPool {
     const transactions = Object.values(this.transactionMap);
     return transactions.find((trans) => trans.input.adress === inputAdress);
   }
+
+  replacePoolMap(transactionMap) {
+    this.transactionMap = transactionMap;
+  }
 }
 
 module.exports = TransactionPool;

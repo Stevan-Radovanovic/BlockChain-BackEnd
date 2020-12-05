@@ -65,14 +65,22 @@ app.get('/transact/pool', (req, res) => {
   res.status(200).json({ transactionPoolMap: transactionPool.transactionMap });
 });
 
-const syncChains = () => {
-  console.log('Sync Chains fired up.');
+const syncRoot = () => {
+  console.log('Sync fired up.');
   request({ url: `${ROOT_ROUTE}/blocks` }, (error, response, body) => {
     if (error || response.statusCode !== 200) {
       return;
     }
     const rootChain = JSON.parse(body);
     blockchain.replaceChain(rootChain.chain);
+  });
+
+  request({ url: `${ROOT_ROUTE}/transact/pool` }, (error, response, body) => {
+    if (error || response.statusCode !== 200) {
+      return;
+    }
+    const rootPoolMap = JSON.parse(body);
+    transactionPool.replacePoolMap(rootPoolMap.transactionPoolMap);
   });
 };
 
@@ -89,6 +97,6 @@ console.log('BlockChain API starting');
 app.listen(PORT, () => {
   console.log(`Starting @ PORT ${PORT}`);
   if (PORT !== DEFAULT_PORT) {
-    syncChains();
+    syncRoot();
   }
 });
