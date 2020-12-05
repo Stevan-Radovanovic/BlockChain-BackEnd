@@ -9,11 +9,14 @@ const credentials = {
 const channels = {
   TEST: 'TEST',
   BLOCKCHAIN: 'BLOCKCHAIN',
+  TRANSACTION: 'TRANSACTION',
 };
 
 class PubSub {
-  constructor({ blockchain }) {
+  constructor({ blockchain, transactionPool, wallet }) {
     this.blockchain = blockchain;
+    this.wallet = wallet;
+    this.transactionPool = transactionPool;
     this.pubnub = new PubNub(credentials);
 
     this.pubnub.subscribe({ channels: Object.values(channels) });
@@ -29,6 +32,16 @@ class PubSub {
         if (channel === channels.BLOCKCHAIN) {
           this.blockchain.replaceChain(parsedMessage);
         }
+
+        if (channel === channels.TRANSACTION) {
+          if (
+            !this.transactionPool.findTransaction({
+              inputAdress: this.wallet.publicKey,
+            })
+          ) {
+            this.transactionPool.setTransaction(parsedMessage);
+          }
+        }
       },
     };
   }
@@ -41,6 +54,13 @@ class PubSub {
     this.publish({
       channel: channels.BLOCKCHAIN,
       message: JSON.stringify(this.blockchain.chain),
+    });
+  }
+
+  broadcastTransaction(transaction) {
+    this.publish({
+      channel: channels.TRANSACTION,
+      message: JSON.stringify(transaction),
     });
   }
 }
