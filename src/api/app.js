@@ -47,7 +47,6 @@ app.post('/transact/create', (req, res, next) => {
       transaction = wallet.createTransaction({ amount, recipient });
     }
   } catch (error) {
-    console.log(error);
     return res
       .status(400)
       .json({ error: 'Crypton Error', message: error.message });
@@ -58,6 +57,10 @@ app.post('/transact/create', (req, res, next) => {
   res
     .status(201)
     .json({ message: 'Transaction created', transaction: transaction });
+});
+
+app.get('/transact/pool', (req, res) => {
+  res.status(200).json({ transactionPoolMap: transactionPool.transactionMap });
 });
 
 const syncChains = () => {
