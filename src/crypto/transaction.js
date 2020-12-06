@@ -67,10 +67,10 @@ class Transaction {
     return true;
   }
 
-  static createRewardTransaction() {
+  static createRewardTransaction({ minerWallet }) {
     return new this({
       input: REWARD_INPUT,
-      outputMap: { [minerWaller.publicKey]: MINERS_REWARD },
+      outputMap: { [minerWallet.publicKey]: MINERS_REWARD },
     });
   }
 }

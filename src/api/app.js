@@ -5,12 +5,19 @@ const Blockchain = require('../blockchain/blockchain');
 const PubSub = require('./pubsub');
 const TransactionPool = require('../crypto/transaction-pool');
 const Wallet = require('../crypto/wallet');
+const TransactionMiner = require('../crypto/transaction-miner');
 
 const app = express();
 const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
 const wallet = new Wallet();
 const pubSub = new PubSub({ blockchain, transactionPool, wallet });
+const miner = new TransactionMiner({
+  transactionPool,
+  pubSub,
+  wallet,
+  blockchain,
+});
 
 const DEFAULT_PORT = 3000;
 const ROOT_ROUTE = `http://localhost:${DEFAULT_PORT}`;
@@ -63,6 +70,11 @@ app.post('/transact/create', (req, res, next) => {
 
 app.get('/transact/pool', (req, res) => {
   res.status(200).json({ transactionPoolMap: transactionPool.transactionMap });
+});
+
+app.get('/transact/add-to-chain', (req, res) => {
+  miner.mineTransactions();
+  res.redirect('/blocks');
 });
 
 const syncRoot = () => {
