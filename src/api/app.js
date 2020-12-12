@@ -81,6 +81,18 @@ app.get('/transact/add-to-chain', (req, res) => {
   res.redirect('/blocks');
 });
 
+app.get('/wallet/info', (req, res) => {
+  const address = wallet.publicKey;
+
+  res.json({
+    address,
+    balance: Wallet.calculateBalance({
+      chain: blockchain.chain,
+      address,
+    }),
+  });
+});
+
 const syncRoot = () => {
   console.log('Sync fired up.');
   request({ url: `${ROOT_ROUTE}/blocks` }, (error, response, body) => {

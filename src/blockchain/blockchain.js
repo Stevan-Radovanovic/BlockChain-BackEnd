@@ -1,5 +1,7 @@
 const Block = require('./block');
 const CryptoHash = require('./crypto-hash');
+const { REWARD_INPUT, MINERS_REWARD } = require('../../config');
+const Transaction = require('../crypto/transaction');
 
 class Blockchain {
   constructor() {
@@ -58,6 +60,38 @@ class Blockchain {
       if (onSuccess) onSuccess();
       this.chain = newChain;
     }
+  }
+
+  isTransactionDataValid({ chain }) {
+    for (let i = 1; i < chain.length; i++) {
+      const block = chain[i];
+      let rewardTransactionCount = 0;
+
+      for (let transaction of block.data) {
+        if (transaction.input.address === REWARD_INPUT.address) {
+          rewardTransactionCount++;
+
+          if (rewardTransactionCount > 1) {
+            console.error('Only one Miner Reward is allowed');
+            return false;
+          }
+
+          if (Object.values(transaction.outputMap)[0] !== MINERS_REWARD) {
+            console.error(
+              'Reward transaction does not match the miners reward'
+            );
+            return false;
+          }
+        } else {
+          if (!Transaction.verifyTransaction(transaction)) {
+            console.error('Invalid transaction!');
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
   }
 }
 
