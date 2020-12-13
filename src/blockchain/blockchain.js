@@ -48,7 +48,7 @@ class Blockchain {
     return true;
   }
 
-  replaceChain(newChain, onSuccess) {
+  replaceChain(newChain, validateTransactions, onSuccess) {
     if (this.chain.length >= newChain.length) {
       console.error(
         'Replacement Error: New Chain not longer than the previous one.'
@@ -57,6 +57,11 @@ class Blockchain {
     }
 
     if (Blockchain.isValidChain(newChain)) {
+      if (validateTransactions && !this.isTransactionDataValid({ newChain })) {
+        console.error('Transaction data is invalid!');
+        return;
+      }
+
       console.log('Chain succesfully replaced');
       if (onSuccess) onSuccess();
       this.chain = newChain;
@@ -66,6 +71,7 @@ class Blockchain {
   isTransactionDataValid({ chain }) {
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i];
+      const transactionSet = new Set();
       let rewardTransactionCount = 0;
 
       for (let transaction of block.data) {
@@ -97,6 +103,13 @@ class Blockchain {
           if (transaction.input.amount !== trueBalance) {
             console.error('Invalid wallet balance!');
             return false;
+          }
+
+          if (transactionSet.has(transaction)) {
+            console.error('Duplicate transaction error!');
+            return false;
+          } else {
+            transactionSet.add(transaction);
           }
         }
       }
