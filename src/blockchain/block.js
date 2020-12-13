@@ -9,14 +9,17 @@ class Block {
     this.lastHash = lastHash;
     this.hash = hash;
     this.data = data;
+    // Created for establishing the Proof of Work system
     this.nonce = nonce;
     this.difficulty = difficulty;
   }
 
+  //Generating the initial dummy block
   static genesis() {
     return new this(GENESIS_DATA);
   }
 
+  //Increasing or decreasing difficulty depending on the rate of mining
   static adjustDifficulty({ lastBlock, timestamp }) {
     const difficulty = lastBlock.difficulty;
     const difference = timestamp - lastBlock.timestamp;
