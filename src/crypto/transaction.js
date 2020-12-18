@@ -21,7 +21,7 @@ class Transaction {
     return {
       timestamp: Date.now(),
       amount: senderWallet.balance,
-      adress: senderWallet.publicKey,
+      address: senderWallet.publicKey,
       signature: senderWallet.sign(outputMap),
     };
   }
@@ -46,7 +46,7 @@ class Transaction {
 
   static verifyTransaction(transaction) {
     const {
-      input: { adress, amount, signature },
+      input: { address, amount, signature },
       outputMap,
     } = transaction;
 
@@ -59,7 +59,7 @@ class Transaction {
       return false;
     }
 
-    if (!verifySignature({ publicKey: adress, data: outputMap, signature })) {
+    if (!verifySignature({ publicKey: address, data: outputMap, signature })) {
       console.error('Transaction invalid!');
       return false;
     }

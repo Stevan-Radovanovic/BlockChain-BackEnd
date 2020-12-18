@@ -57,9 +57,11 @@ class Blockchain {
     }
 
     if (Blockchain.isValidChain(newChain)) {
-      if (validateTransactions && !this.isTransactionDataValid({ newChain })) {
-        console.error('Transaction data is invalid!');
-        return;
+      if (validateTransactions) {
+        if (!this.isTransactionDataValid(newChain)) {
+          console.error('Transaction data is invalid!');
+          return;
+        }
       }
 
       console.log('Chain succesfully replaced');
@@ -68,7 +70,7 @@ class Blockchain {
     }
   }
 
-  isTransactionDataValid({ chain }) {
+  isTransactionDataValid(chain) {
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i];
       const transactionSet = new Set();
@@ -77,12 +79,10 @@ class Blockchain {
       for (let transaction of block.data) {
         if (transaction.input.address === REWARD_INPUT.address) {
           rewardTransactionCount++;
-
           if (rewardTransactionCount > 1) {
             console.error('Only one Miner Reward is allowed');
             return false;
           }
-
           if (Object.values(transaction.outputMap)[0] !== MINERS_REWARD) {
             console.error(
               'Reward transaction does not match the miners reward'
@@ -94,12 +94,12 @@ class Blockchain {
             console.error('Invalid transaction!');
             return false;
           }
-
+          console.log('here');
           const trueBalance = Wallet.calculateBalance({
             chain: this.chain,
             address: transaction.input.address,
           });
-
+          console.log('here');
           if (transaction.input.amount !== trueBalance) {
             console.error('Invalid wallet balance!');
             return false;

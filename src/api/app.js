@@ -100,7 +100,7 @@ const syncRoot = () => {
       return;
     }
     const rootChain = JSON.parse(body);
-    blockchain.replaceChain(rootChain.chain);
+    blockchain.replaceChain(rootChain.chain, false);
   });
 
   request({ url: `${ROOT_ROUTE}/transact/pool` }, (error, response, body) => {

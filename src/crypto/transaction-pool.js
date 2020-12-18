@@ -27,7 +27,7 @@ class TransactionPool {
 
   findTransaction({ inputAdress }) {
     const transactions = Object.values(this.transactionMap);
-    return transactions.find((trans) => trans.input.adress === inputAdress);
+    return transactions.find((trans) => trans.input.address === inputAdress);
   }
 
   replacePoolMap(transactionMap) {

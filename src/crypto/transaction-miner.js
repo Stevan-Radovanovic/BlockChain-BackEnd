@@ -10,6 +10,7 @@ class TransactionMiner {
 
   mineTransactions() {
     const validTransactions = this.transactionPool.validTransactions();
+    if (validTransactions.length === 0) return;
     const rewardTransaction = Transaction.createRewardTransaction({
       minerWallet: this.wallet,
     });
