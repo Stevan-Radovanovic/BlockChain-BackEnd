@@ -45,7 +45,7 @@ app.post('/blocks/redirect', (req, res, next) => {
 app.post('/transact/create', (req, res, next) => {
   const { amount, recipient } = req.body;
   let transaction = transactionPool.findTransaction({
-    inputAdress: wallet.publicKey,
+    inputAddress: wallet.publicKey,
   });
   try {
     if (transaction) {
@@ -63,7 +63,6 @@ app.post('/transact/create', (req, res, next) => {
       .status(400)
       .json({ error: 'Crypton Error', message: error.message });
   }
-
   transactionPool.setTransaction(transaction);
   pubSub.broadcastTransaction(transaction);
 

@@ -94,12 +94,10 @@ class Blockchain {
             console.error('Invalid transaction!');
             return false;
           }
-          console.log('here');
           const trueBalance = Wallet.calculateBalance({
             chain: this.chain,
             address: transaction.input.address,
           });
-          console.log('here');
           if (transaction.input.amount !== trueBalance) {
             console.error('Invalid wallet balance!');
             return false;

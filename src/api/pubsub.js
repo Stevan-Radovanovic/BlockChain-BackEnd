@@ -40,7 +40,7 @@ class PubSub {
         if (channel === channels.TRANSACTION) {
           if (
             !this.transactionPool.findTransaction({
-              inputAdress: this.wallet.publicKey,
+              inputAddress: this.wallet.publicKey,
             })
           ) {
             this.transactionPool.setTransaction(parsedMessage);
